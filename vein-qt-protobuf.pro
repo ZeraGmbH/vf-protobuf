@@ -40,7 +40,7 @@ QMAKE_CLEAN += veincore.pb.cc veincore.pb.h
 HEADERS += veincore.pb.h
 SOURCES += veincore.pb.cc
 
-header_files.files = veincore.pb.h
+header_files.files = $$HEADERS
 header_files.path = /usr/include/
 INSTALLS += header_files
 
