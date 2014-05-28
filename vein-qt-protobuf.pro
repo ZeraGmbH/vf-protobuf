@@ -22,7 +22,11 @@ unix:!symbian {
 OTHER_FILES += \
     veincore.proto
 
-LIBS += -lprotobuf
+unix:LIBS += -lprotobuf
+
+android:LIBS+= -L/home/samuel/tmp/android-protobuf/android_libs/protobuf/obj/local/armeabi-v7a/ -lprotobuf
+android:INCLUDEPATH+="/home/samuel/tmp/android-protobuf/android_libs/protobuf/jni/src/"
+
 
 
 #Generate protocol buffers
@@ -30,6 +34,7 @@ SRCDIR=$$_PRO_FILE_PWD_ #qmake is to stupid to add a source directory variable b
 PROTOBUFS = $$SRCDIR/veincore.proto
 protobuf.target = veincore.pb.cc
 protobuf.commands = protoc -I$$SRCDIR/ --cpp_out=. $$PROTOBUFS
+#android:protobuf.commands = /home/samuel/tmp/android-protobuf/jni/build_x86_64/src/protoc -I$$SRCDIR/ --cpp_out=. $$PROTOBUFS
 QMAKE_EXTRA_TARGETS += protobuf
 
 PRE_TARGETDEPS += veincore.pb.cc

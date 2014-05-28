@@ -4,21 +4,17 @@ message Vein {
     message Command {
         enum CommandType {
             ASYNC_ENTITY_UPDATE = 1;
-            ASYNC_PEER_UPDATE = 2;
-            ASYNC_PEERLIST_UPDATE = 3;
+            ASYNC_PEER_ADDED = 2; //NEW
+            ASYNC_PEER_REMOVED = 3; //NEW
+            ASYNC_ENTITY_ADDED = 4; //NEW
+            ASYNC_ENTITY_REMOVED = 5; //NEW
 
-//commented out because they are not used
-            //REQUEST_ANSWER = 100; // The expected result of any request
             REQUEST_ENTITY_DATA = 101;
             REQUEST_ENTITY_START_ASYNC_UPDATE = 102;
             REQUEST_ENTITY_STOP_ASYNC_UPDATE = 103;
 
-            REQUEST_PEER_DATA = 150;
-            REQUEST_PEERLIST = 151;
-
             MESSAGE_DEBUG = 201;
             MESSAGE_ERROR = 202;
-
 
             KILL_HUB = 300;
             INIT_ENTITY = 301;
@@ -31,16 +27,14 @@ message Vein {
     }
     message Entity {
         required bytes uid = 1;
-        required bytes ownerUid = 2;
         optional string entityName = 100;
         repeated int32 modifiers = 101 [packed=true];
         optional bytes dataVariant = 102;
         optional int32 QMetaType = 103; // used for QVariant conversions
     }
     message Peer {
-        required bytes uid = 1;
-        optional string peerName = 2;
-        repeated Entity peerEntities = 3;
+        required string peerName = 1;
+        repeated Entity peerEntities = 2;
     }
 }
 
