@@ -17,20 +17,20 @@ message Vein {
             MESSAGE_ERROR = 202;
 
             KILL_HUB = 300;
-            INIT_ENTITY = 301;
+            INIT_ENTITY = 301; //UNUSED
             INIT_HUB = 302;
-            INIT_PEER = 303;
+            INIT_PEER = 303; //UNUSED
         }
         required CommandType type = 1 [default = ASYNC_ENTITY_UPDATE];
-        optional bytes uidSender = 2;
-        repeated bytes uidReceiverList = 3;
+        optional bytes uidSender = 2;  //rfc4122 representation of QUid
+        repeated bytes uidReceiverList = 3; //rfc4122 representation of QUuid, can be used to multicast messages?
+        repeated Vein.Peer peerList = 4;
     }
     message Entity {
-        required bytes uid = 1;
-        optional string entityName = 100;
+        required string entityName = 100;
         repeated int32 modifiers = 101 [packed=true];
         optional bytes dataVariant = 102;
-        optional int32 QMetaType = 103; // used for QVariant conversions
+        optional int32 QMetaType = 103; //used for QVariant conversions
     }
     message Peer {
         required string peerName = 1;
@@ -39,7 +39,5 @@ message Vein {
 }
 
 message VeinProtocol {
-    optional Vein.Command command = 1;
-    repeated Vein.Entity entityList = 2;
-    repeated Vein.Peer peerList = 3;
+    repeated Vein.Command command = 1;
 }
