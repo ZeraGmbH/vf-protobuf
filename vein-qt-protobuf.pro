@@ -8,7 +8,7 @@ QT       -= core gui
 
 TARGET = vein-qt-protobuf
 TEMPLATE = lib
-CONFIG += staticlib
+#CONFIG += staticlib
 
 unix:!symbian {
     maemo5 {
