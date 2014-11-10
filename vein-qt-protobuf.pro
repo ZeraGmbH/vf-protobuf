@@ -4,10 +4,17 @@
 #
 #-------------------------------------------------
 
+
+TEMPLATE = lib
+
+exists( ../../project-paths.pri ) {
+  include(../../project-paths.pri)
+}
+
 QT       -= core gui
 
 TARGET = vein-qt-protobuf
-TEMPLATE = lib
+
 #CONFIG += staticlib
 
 unix:!symbian {
