@@ -1,43 +1,26 @@
 package protobuf;
 
 message Vein {
-    message Command {
+    message ComponentCommand {
         enum CommandType {
-            ASYNC_ENTITY_UPDATE = 1;
-            ASYNC_PEER_ADDED = 2; //NEW
-            ASYNC_PEER_REMOVED = 3; //NEW
-            ASYNC_ENTITY_ADDED = 4; //NEW
-            ASYNC_ENTITY_REMOVED = 5; //NEW
-
-            REQUEST_ENTITY_DATA = 101;
-            REQUEST_ENTITY_START_ASYNC_UPDATE = 102;
-            REQUEST_ENTITY_STOP_ASYNC_UPDATE = 103;
-
-            MESSAGE_DEBUG = 201;
-            MESSAGE_ERROR = 202;
-
-            KILL_HUB = 300;
-            INIT_ENTITY = 301; //UNUSED
-            INIT_HUB = 302;
-            INIT_PEER = 303; //UNUSED
+            PCCMD_ANSWER = 1; /**< answer to a request (network) */
+            PCCMD_REQUEST = 3; /**< request a value (network) */
+            PCCMD_SET = 4; /**< sets a value or fails when component does not exist */
+            PCCMD_SUBSCRIBE = 5; /**< informs about the desire to be notified on updates of this component (network) */
+            PCCMD_UNSUBSCRIBE = 6; /**< informs about the desire to stob being notified on updates of this component (network) */
         }
-        required CommandType type = 1 [default = ASYNC_ENTITY_UPDATE];
-        optional bytes uidSender = 2;  //rfc4122 representation of QUid
-        repeated bytes uidReceiverList = 3; //rfc4122 representation of QUuid, can be used to multicast messages?
-        repeated Vein.Peer peerList = 4;
+        required CommandType type = 1 [default = PCCMD_SET];
+        optional bytes storageId = 2;  //rfc4122 representation of QUid
+        repeated Vein.Component componentList = 4;
     }
-    message Entity {
-        required string entityName = 100;
-        repeated int32 modifiers = 101 [packed=true];
+    message Component {
+        required string componentName = 100;
         optional bytes dataVariant = 102;
         optional int32 QMetaType = 103; //used for QVariant conversions
-    }
-    message Peer {
-        required string peerName = 1;
-        repeated Entity peerEntities = 2;
     }
 }
 
 message VeinProtocol {
-    repeated Vein.Command command = 1;
+    repeated Vein.ComponentCommand command = 1;
+    optional bytes senderId = 2;  //rfc4122 representation of QUid
 }
