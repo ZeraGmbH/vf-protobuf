@@ -3,24 +3,24 @@ package protobuf;
 message Vein {
     message ComponentCommand {
         enum CommandType {
-            PCCMD_ANSWER = 1; /**< answer to a request (network) */
-            PCCMD_REQUEST = 3; /**< request a value (network) */
+            PCCMD_ANSWER = 1; /**< answer to a request */
+            PCCMD_REQUEST = 3; /**< request a value */
             PCCMD_SET = 4; /**< sets a value or fails when component does not exist */
-            PCCMD_SUBSCRIBE = 5; /**< informs about the desire to be notified on updates of this component (network) */
-            PCCMD_UNSUBSCRIBE = 6; /**< informs about the desire to stob being notified on updates of this component (network) */
+            PCCMD_SUBSCRIBE = 5; /**< informs about the desire to be notified on updates of this component */
+            PCCMD_UNSUBSCRIBE = 6; /**< informs about the desire to stob being notified on updates of this component */
         }
         required CommandType type = 1 [default = PCCMD_SET];
-        optional bytes storageId = 2;  //rfc4122 representation of QUid
-        repeated Vein.Component componentList = 4;
+        optional bytes storageId = 2;  //rfc4122 representation of QUuid
+        repeated Vein.Component componentList = 3;
     }
     message Component {
         required string componentName = 100;
-        optional bytes dataVariant = 102;
-        optional int32 QMetaType = 103; //used for QVariant conversions
+        optional bytes dataVariant = 101;
+        optional int32 QMetaType = 102; //used for QVariant conversions
     }
 }
 
 message VeinProtocol {
     repeated Vein.ComponentCommand command = 1;
-    optional bytes senderId = 2;  //rfc4122 representation of QUid
+    optional bytes senderId = 2;  //rfc4122 representation of QUuid
 }
