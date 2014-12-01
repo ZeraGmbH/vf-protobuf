@@ -3,7 +3,9 @@ package protobuf;
 message Vein {
     message ComponentCommand {
         enum CommandType {
+            PCCMD_ADD = 0; /**< adds a new component with the value given */
             PCCMD_ANSWER = 1; /**< answer to a request */
+            PCCMD_REMOVE = 2; /**< removes the value entirely */
             PCCMD_REQUEST = 3; /**< request a value */
             PCCMD_SET = 4; /**< sets a value or fails when component does not exist */
             PCCMD_SUBSCRIBE = 5; /**< informs about the desire to be notified on updates of this component */
