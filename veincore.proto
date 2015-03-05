@@ -1,28 +1,36 @@
 package protobuf;
 
 message Vein {
+    message EntityCommand {
+        enum CommandType {
+            ECMD_ADDED = 0; /**< may also provide the introspection */
+            ECMD_REMOVED = 1;
+            ECMD_SUBSCRIBE = 2; /**< start tracking components of the given entity */
+            ECMD_UNSUBSCRIBE = 3; /**< stop tracking components of the given entity */
+        }
+        required CommandType type = 1;
+        required uint32 identifier = 2; /**< unique identifier */
+        optional bytes jsonIntrospection = 3; /**< binary data, may be provided when the entity is added and the server is configured for introspection */
+    }
     message ComponentCommand {
         enum CommandType {
-            PCCMD_ADD = 0; /**< adds a new component with the value given */
-            PCCMD_ANSWER = 1; /**< answer to a request */
-            PCCMD_REMOVE = 2; /**< removes the value entirely */
-            PCCMD_REQUEST = 3; /**< request a value */
-            PCCMD_SET = 4; /**< sets a value or fails when component does not exist */
-            PCCMD_SUBSCRIBE = 5; /**< informs about the desire to be notified on updates of this component */
-            PCCMD_UNSUBSCRIBE = 6; /**< informs about the desire to stop being notified on updates of this component */
+            PCCMD_ADDED = 0; /**< must provide the initial value of the component */
+            PCCMD_REMOVED = 1;
+            PCCMD_SET = 2; /**< sets a value or fails if the component does not exist */
+            PCCMD_UPDATE = 3; /**< must provide the value of the component */
         }
         required CommandType type = 1 [default = PCCMD_SET];
-        optional bytes storageId = 2;  //rfc4122 representation of QUuid
-        repeated Vein.Component componentList = 3;
+        required Vein.Component component = 2;
     }
     message Component {
-        required string componentName = 100;
-        optional bytes dataVariant = 101;
-        optional int32 QMetaType = 102; //used for QVariant conversions
+        required uint32 entityId = 100; /**< The entity "holding" the component */
+        required string componentName = 101; /**< Must be unique within the scope of the entity */
+        optional bytes dataVariant = 102; /**< QVariant representation of the data, required when PCCMD_ADDED or PCCMD_UPDATE is used */
+        optional int32 QMetaType = 103; /**< Used for QVariant conversions */
     }
 }
 
 message VeinProtocol {
-    repeated Vein.ComponentCommand command = 1;
-    optional bytes senderId = 2;  //rfc4122 representation of QUuid
+    repeated Vein.EntityCommand entCommand = 1;
+    repeated Vein.ComponentCommand compCommand = 2;
 }
