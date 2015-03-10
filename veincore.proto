@@ -10,14 +10,13 @@ message Vein {
         }
         required CommandType type = 1;
         required uint32 identifier = 2; /**< unique identifier */
-        optional bytes jsonIntrospection = 3; /**< binary data, may be provided when the entity is added and the server is configured for introspection */
+        optional bytes jsonIntrospection = 3; /**< binary data (Qt), may be provided when the entity is added and the server is configured for introspection */
     }
     message ComponentCommand {
         enum CommandType {
             PCCMD_ADDED = 0; /**< must provide the initial value of the component */
             PCCMD_REMOVED = 1;
             PCCMD_SET = 2; /**< sets a value or fails if the component does not exist */
-            PCCMD_UPDATE = 3; /**< must provide the value of the component */
         }
         required CommandType type = 1 [default = PCCMD_SET];
         required Vein.Component component = 2;
