@@ -9,7 +9,7 @@ message Vein {
             ECMD_UNSUBSCRIBE = 3; /**< stop tracking components of the given entity */
         }
         required CommandType type = 1;
-        required uint32 identifier = 2; /**< unique identifier */
+        required int32 identifier = 2; /**< unique identifier */
         optional bytes jsonIntrospection = 3; /**< binary data (Qt), may be provided when the entity is added and the server is configured for introspection */
     }
     message ComponentCommand {
@@ -22,7 +22,7 @@ message Vein {
         required Vein.Component component = 2;
     }
     message Component {
-        required uint32 entityId = 100; /**< The entity "holding" the component */
+        required int32 entityId = 100; /**< The entity "holding" the component */
         required string componentName = 101; /**< Must be unique within the scope of the entity */
         optional bytes dataVariant = 102; /**< QVariant representation of the data, required when PCCMD_ADDED or PCCMD_UPDATE is used */
         optional int32 QMetaType = 103; /**< Used for QVariant conversions */
