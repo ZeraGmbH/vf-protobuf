@@ -3,8 +3,8 @@ package protobuf;
 message Vein {
     message EntityCommand {
         enum CommandType {
-            ECMD_ADDED = 0; /**< may also provide the introspection */
-            ECMD_REMOVED = 1;
+            ECMD_ADD = 0; /**< may also provide the introspection */
+            ECMD_REMOVE = 1;
             ECMD_SUBSCRIBE = 2; /**< start tracking components of the given entity */
             ECMD_UNSUBSCRIBE = 3; /**< stop tracking components of the given entity */
         }
@@ -14,8 +14,8 @@ message Vein {
     }
     message ComponentCommand {
         enum CommandType {
-            PCCMD_ADDED = 0; /**< must provide the initial value of the component */
-            PCCMD_REMOVED = 1;
+            PCCMD_ADD = 0; /**< must provide the initial value of the component */
+            PCCMD_REMOVE = 1;
             PCCMD_SET = 2; /**< sets a value or fails if the component does not exist */
         }
         required CommandType type = 1 [default = PCCMD_SET];
