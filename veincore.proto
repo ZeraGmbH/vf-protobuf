@@ -10,7 +10,6 @@ message Vein {
         }
         required CommandType type = 1;
         required int32 identifier = 2; /**< unique identifier */
-        optional bytes jsonIntrospection = 3; /**< binary data (Qt), may be provided when the entity is added and the server is configured for introspection */
     }
     message ComponentCommand {
         enum CommandType {
