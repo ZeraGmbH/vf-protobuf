@@ -1,34 +1,17 @@
 package protobuf;
 
 message Vein {
-    message EntityCommand {
+    message Command {
         enum CommandType {
-            ECMD_ADD = 0; /**< may also provide the introspection */
-            ECMD_REMOVE = 1;
-            ECMD_SUBSCRIBE = 2; /**< start tracking components of the given entity */
-            ECMD_UNSUBSCRIBE = 3; /**< stop tracking components of the given entity */
+            VC_TRANSACTION = 0;
+            VC_NOTIFICATION = 1;
         }
         required CommandType type = 1;
-        required int32 identifier = 2; /**< unique identifier */
-    }
-    message ComponentCommand {
-        enum CommandType {
-            PCCMD_ADD = 0; /**< must provide the initial value of the component */
-            PCCMD_REMOVE = 1;
-            PCCMD_SET = 2; /**< sets a value or fails if the component does not exist */
-        }
-        required CommandType type = 1 [default = PCCMD_SET];
-        required Vein.Component component = 2;
-    }
-    message Component {
-        required int32 entityId = 100; /**< The entity "holding" the component */
-        required string componentName = 101; /**< Must be unique within the scope of the entity */
-        optional bytes dataVariant = 102; /**< QVariant representation of the data, required when PCCMD_ADDED or PCCMD_UPDATE is used */
-        optional int32 QMetaType = 103; /**< Used for QVariant conversions */
+        required int32 dataType = 2; //used to construct the right type from the binary data
+        required bytes payload = 3; //binary data of the command
     }
 }
 
 message VeinProtocol {
-    repeated Vein.EntityCommand entCommand = 1;
-    repeated Vein.ComponentCommand compCommand = 2;
+    repeated Vein.Command command = 1;
 }
