@@ -36,12 +36,20 @@ android:INCLUDEPATH+="/work/downloads/protobuf-2.5.0/src"
 #Generate protocol buffers
 SRCDIR=$$_PRO_FILE_PWD_ #qmake is to stupid to add a source directory variable by default?!?
 PROTOBUFS = $$SRCDIR/vfcore.proto
-protobuf.target = vfcore.pb.cc
+protobuf.target = vfcore.pb.h
 protobuf.commands = protoc -I$$SRCDIR/ --cpp_out=. $$PROTOBUFS
+protobuf.output = vfcore.pb.cc vfcore.pb.h
+protobuf.CONFIG = target_predeps
 #android:protobuf.commands = /home/samuel/tmp/android-protobuf/jni/build_x86_64/src/protoc -I$$SRCDIR/ --cpp_out=. $$PROTOBUFS
-QMAKE_EXTRA_TARGETS += protobuf
 
-PRE_TARGETDEPS += vfcore.pb.cc
+#race condition, as only one file can be defined as a target this target defines the other file
+protobuf_race.target = vfcore.pb.cc
+protobuf_race.depends = protobuf
+protobuf.CONFIG = target_predeps
+
+QMAKE_EXTRA_TARGETS += protobuf protobuf_race
+
+PRE_TARGETDEPS += vfcore.pb.h vfcore.pb.cc
 QMAKE_CLEAN += vfcore.pb.cc vfcore.pb.h
 
 
