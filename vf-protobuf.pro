@@ -45,7 +45,7 @@ protobuf.CONFIG = target_predeps
 #race condition, as only one file can be defined as a target this target defines the other file
 protobuf_race.target = vfcore.pb.cc
 protobuf_race.depends = protobuf
-protobuf.CONFIG = target_predeps
+protobuf_race.CONFIG = target_predeps
 
 QMAKE_EXTRA_TARGETS += protobuf protobuf_race
 
