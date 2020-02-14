@@ -4,11 +4,8 @@ include(CMakeFindDependencyMacro)
 #set(my-config-var @my-config-var@)
 
 # dependencies
-find_dependency(Qt5 COMPONENTS Core Quick REQUIRED)
-find_dependency(VfTcp REQUIRED)
 find_dependency(PkgConfig)
-
-# cmark pkg-config??
+find_dependency(Protobuf REQUIRED)
 
 # targets file
 include("${CMAKE_CURRENT_LIST_DIR}/VfProtobufTargets.cmake")
